@@ -31,6 +31,11 @@ public class Recipe {
     @OneToOne(cascade = CascadeType.ALL)
     private Notes notes;
     // we have one way cascading from Recipe to note
+    @ManyToMany
+   @JoinTable(name = "recipe_catagory",
+   joinColumns = @JoinColumn(name = "recipe_id"),
+   inverseJoinColumns = @JoinColumn(name = "catagory_id"))
+    private Set<Catagory> catagories;
 
     public Recipe() {
     }
@@ -129,5 +134,13 @@ public class Recipe {
 
     public void setIngerediantSet(Set<Ingerediant> ingerediantSet) {
         this.ingerediantSet = ingerediantSet;
+    }
+
+    public Set<Catagory> getCatagoties() {
+        return catagories;
+    }
+
+    public void setCatagoties(Set<Catagory> catagoties) {
+        this.catagories = catagoties;
     }
 }

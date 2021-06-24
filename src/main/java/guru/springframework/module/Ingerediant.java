@@ -12,7 +12,17 @@ public class Ingerediant {
     private String description;
     private BigDecimal amount;
     @ManyToOne
+    //@JoinColumn(name = "recipe_id")
     private Recipe recipe;
+//    In a One-to-Many/Many-to-One relationship, the owning side is usually
+//    defined on the ‘many' side of the relationship. It's usually the side which owns the foreign key.
+//
+//    The @JoinColumn annotation defines that actual physical mapping on the owning side:
+/*Once we have defined the owning side of the relationship, Hibernate already has all the
+    information it needs to map that relationship in our database. To make this association
+    bidirectional, all we'll have to do is to define the referencing side. The inverse or the
+    referencing side simply maps to the owning side.*/
+    // as you check the Recipe you will find the mapped by.
 
     @OneToOne(fetch = FetchType.EAGER)
     private UnitOfMeasure unitOfMeasure;
