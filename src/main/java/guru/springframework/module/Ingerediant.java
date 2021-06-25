@@ -33,6 +33,12 @@ public class Ingerediant {
     public Ingerediant() {
     }
 
+    public Ingerediant(String description, BigDecimal amount,  UnitOfMeasure unitOfMeasure) {
+        this.description = description;
+        this.amount = amount;
+        this.unitOfMeasure = unitOfMeasure;
+    }
+
     public UnitOfMeasure getUnitOfMeasure() {
         return unitOfMeasure;
     }

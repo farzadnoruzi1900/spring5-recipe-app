@@ -10,7 +10,7 @@ public class Notes {
     @OneToOne
     private Recipe recipe;
     @Lob
-    private String notes;
+    private String direction;
 
     public Notes() {
     }
@@ -31,11 +31,11 @@ public class Notes {
         this.recipe = recipe;
     }
 
-    public String getNotes() {
-        return notes;
+    public String getDirection() {
+        return direction;
     }
 
-    public void setNotes(String notes) {
-        this.notes = notes;
+    public void setDirection(String notes) {
+        this.direction = notes;
     }
 }

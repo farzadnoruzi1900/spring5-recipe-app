@@ -2,6 +2,7 @@ package guru.springframework.module;
 
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -18,12 +19,13 @@ public class Recipe {
     private Integer service;
     private String source;
     private String url ;
+    @Lob
     private String direction;
     @Enumerated(value = EnumType.STRING)
     private Difficulity difficulity;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "recipe")
-    private Set<Ingerediant> ingerediantSet;
+    private Set<Ingerediant> ingerediantSet=new HashSet<>();
 
     @Lob
     private Byte[] image;
@@ -35,7 +37,7 @@ public class Recipe {
    @JoinTable(name = "recipe_catagory",
    joinColumns = @JoinColumn(name = "recipe_id"),
    inverseJoinColumns = @JoinColumn(name = "catagory_id"))
-    private Set<Catagory> catagories;
+    private Set<Catagory> catagories=new HashSet<>();
 
     public Recipe() {
     }
@@ -125,7 +127,9 @@ public class Recipe {
     }
 
     public void setNotes(Notes notes) {
+        // this is where you have to add another assignment in bidirectional relationship
         this.notes = notes;
+        notes.setRecipe(this);
     }
 
     public Set<Ingerediant> getIngerediantSet() {
@@ -142,5 +146,12 @@ public class Recipe {
 
     public void setCatagoties(Set<Catagory> catagoties) {
         this.catagories = catagoties;
+    }
+
+    // add this method to have more clean code in bootstrap and to omit the redundancy of adding the
+    // Recipe object to ingrediant because it is bidirectional relation.
+    public void addIngrediant(Ingerediant ingerediant){
+        this.ingerediantSet.add(ingerediant);
+        ingerediant.setRecipe(this);
     }
 }
