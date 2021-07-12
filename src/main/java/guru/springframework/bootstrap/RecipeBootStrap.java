@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Optional;
@@ -26,6 +27,7 @@ public class RecipeBootStrap implements ApplicationListener<ContextRefreshedEven
     }
 
     @Override
+    @Transactional
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         recipeRepository.saveAll(recipeSetReturn());
     }
@@ -103,7 +105,7 @@ public class RecipeBootStrap implements ApplicationListener<ContextRefreshedEven
                 "                \"Read more: http://www.simplyrecipes.com/recipes/perfect_guacamole/#ixzz4jvoun5ws\"");
 
 
-        guacRecipe.getCatagoties().add(america);
+        guacRecipe.getCatagories().add(america);
         guacRecipe.setCookTime(10);
         guacRecipe.setDescription("Perfect Guacamole");
         guacRecipe.setPrepTime(10);
