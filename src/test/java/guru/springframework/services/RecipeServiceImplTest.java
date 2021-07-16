@@ -1,13 +1,17 @@
-package guru.springframework.service;
+package guru.springframework.services;
 
+import guru.springframework.converters.RecipeCommandToRecipe;
+import guru.springframework.converters.RecipeToRecipeCommand;
 import guru.springframework.module.Recipe;
 import guru.springframework.repository.RecipeRepository;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.mockito.Mockito.*;
@@ -20,11 +24,20 @@ public class RecipeServiceImplTest {
     @Mock
     RecipeRepository recipeRepository;
 
+    @Mock
+    RecipeCommandToRecipe recipeCommandToRecipe;
+
+    @Mock
+    RecipeToRecipeCommand recipeToRecipeCommand;
+
+    private final Long id=1l;
     @Before
     public void setUp() throws Exception {
         // this is how we inject the repository object to this class
         MockitoAnnotations.initMocks(this);
-        recipeService = new RecipeServiceImpl(recipeRepository);
+        recipeService = new RecipeServiceImpl(recipeRepository,
+                recipeCommandToRecipe,
+                recipeToRecipeCommand);
     }
 
     @Test
@@ -41,6 +54,20 @@ public class RecipeServiceImplTest {
     /*    by that we want to assure that that specific method runs only and only one time
                 in here .*/
         verify(recipeRepository,times(1)).findAll();
+
+    }
+    @Test
+    public void getRecipeTestById(){
+        Recipe recipe=new Recipe();
+        recipe.setId(id);
+        Optional<Recipe> optionalRecipe= Optional.of(recipe);
+        when(recipeRepository.findById(anyLong())).thenReturn(optionalRecipe);
+
+        Recipe recipe1=recipeService.findById(id);
+
+        Assert.assertNotNull(recipe1);
+        verify(recipeRepository).findById(anyLong());
+        verify(recipeRepository,never()).findAll();
 
     }
 }

@@ -2,7 +2,6 @@ package guru.springframework.module;
 
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -20,16 +19,16 @@ public class Recipe {
     private String description;
     private Integer prepTime;
     private Integer cookTime;
-    private Integer service;
+    private Integer servings;
     private String source;
     private String url ;
     @Lob
-    private String direction;
+    private String directions;
     @Enumerated(value = EnumType.STRING)
     private Difficulity difficulity;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "recipe")
-    private Set<Ingerediant> ingerediantSet=new HashSet<>();
+    private Set<Ingerediant> ingerediants =new HashSet<>();
 
     @Lob
     private Byte[] image;
@@ -53,7 +52,7 @@ public class Recipe {
     // add this method to have more clean code in bootstrap and to omit the redundancy of adding the
     // Recipe object to ingrediant because it is bidirectional relation.
     public void addIngrediant(Ingerediant ingerediant){
-        this.ingerediantSet.add(ingerediant);
+        this.ingerediants.add(ingerediant);
         ingerediant.setRecipe(this);
     }
 }

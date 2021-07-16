@@ -4,7 +4,7 @@ import guru.springframework.module.Catagory;
 import guru.springframework.module.UnitOfMeasure;
 import guru.springframework.repository.CatagoryRepository;
 import guru.springframework.repository.UnitOfMeasureRepository;
-import guru.springframework.service.RecipeService;
+import guru.springframework.services.RecipeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,7 +39,10 @@ public class IndexCoroller {
     @RequestMapping("/recipe")
     public String getRecipe(Model model){
         log.debug("we are in getRecipe method");
-        model.addAttribute("recipe",recipeService.getRecipe());
+        model.addAttribute("recipes",recipeService.getRecipe());
         return "recipe/recipeIndex";
     }
+
+
+
 }

@@ -121,7 +121,7 @@ public class RecipeBootStrap implements ApplicationListener<ContextRefreshedEven
         guacRecipe.addIngrediant(new Ingerediant("ripe tomato, seeds and pulp removed, chopped", new BigDecimal(".5"), each));
 
         guacRecipe.setDifficulity(Difficulity.EASY);
-        guacRecipe.setDirection("\"1 Cut avocado, remove flesh: Cut the avocados in half. Remove seed. Score the inside of the avocado with a blunt knife and scoop out the flesh with a spoon\" +\n" +
+        guacRecipe.setDirections("\"1 Cut avocado, remove flesh: Cut the avocados in half. Remove seed. Score the inside of the avocado with a blunt knife and scoop out the flesh with a spoon\" +\n" +
                 "                \"\\n\" +\n" +
                 "                \"2 Mash with a fork: Using a fork, roughly mash the avocado. (Don't overdo it! The guacamole should be a little chunky.)\" +\n" +
                 "                \"\\n\" +\n" +
