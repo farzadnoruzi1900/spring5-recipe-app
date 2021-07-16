@@ -57,4 +57,10 @@ Recipe saveRecipe=recipeRepository.save(detachRecipe);
         return recipeToRecipeCommand.convert(saveRecipe);
     }
 
+    @Override
+    @Transactional
+    public RecipeCommand updateRecipeById(Long id) {
+        return recipeToRecipeCommand.convert(findById(id))  ;
+    }
+
 }

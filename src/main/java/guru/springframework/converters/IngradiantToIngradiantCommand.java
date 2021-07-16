@@ -9,7 +9,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class IngradiantToIngradiantCommand implements Converter<Ingerediant, IngrediantCommand> {
+    private final UnitofMeasureToUnitOfMeasureCommand uomConverter;
 
+    public IngradiantToIngradiantCommand(UnitofMeasureToUnitOfMeasureCommand uomConverter) {
+        this.uomConverter = uomConverter;
+    }
 
     @Synchronized
     @Nullable
@@ -22,6 +26,7 @@ public class IngradiantToIngradiantCommand implements Converter<Ingerediant, Ing
         ingrediantCommand.setAmount(source.getAmount());
         ingrediantCommand.setDescription(source.getDescription());
         ingrediantCommand.setId(source.getId());
+        ingrediantCommand.setUnitOfMeasureCommand(uomConverter.convert(source.getUnitOfMeasure()));
         return ingrediantCommand;
     }
 }

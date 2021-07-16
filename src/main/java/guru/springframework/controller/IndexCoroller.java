@@ -36,7 +36,7 @@ public class IndexCoroller {
         System.out.println("unit id is : "+unitOfMeasure.get().getId());
         return "index";
     }
-    @RequestMapping("/recipe")
+    @RequestMapping("/recipe/indexTest")
     public String getRecipe(Model model){
         log.debug("we are in getRecipe method");
         model.addAttribute("recipes",recipeService.getRecipe());
