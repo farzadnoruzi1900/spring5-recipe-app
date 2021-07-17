@@ -26,6 +26,9 @@ public class IngradiantToIngradiantCommand implements Converter<Ingerediant, Ing
         ingrediantCommand.setAmount(source.getAmount());
         ingrediantCommand.setDescription(source.getDescription());
         ingrediantCommand.setId(source.getId());
+        if(source.getRecipe()!=null){
+            ingrediantCommand.setRecipeId(source.getRecipe().getId());
+        }
         ingrediantCommand.setUnitOfMeasureCommand(uomConverter.convert(source.getUnitOfMeasure()));
         return ingrediantCommand;
     }

@@ -1,4 +1,4 @@
-package guru.springframework.controller;
+package guru.springframework.controllers;
 
 import guru.springframework.module.Catagory;
 import guru.springframework.module.UnitOfMeasure;
@@ -27,13 +27,15 @@ public class IndexCoroller {
 
 
     @RequestMapping({"/index",""})
-    public String getIndex(){
+    public String getIndex(Model model){
         // in here we get access to those query method and we store them in Optional class again for purpose
         //of not having point to null object and then we easily fetch data from database .
-       Optional<Catagory> catagory=catagoryRepository.findByDescription("American");
+       /*Optional<Catagory> catagory=catagoryRepository.findByDescription("American");
         Optional<UnitOfMeasure> unitOfMeasure=unitOfMeasureRepository.findByDescription("Cup");
         System.out.println("cat Id is : "+catagory.get().getId());
-        System.out.println("unit id is : "+unitOfMeasure.get().getId());
+        System.out.println("unit id is : "+unitOfMeasure.get().getId());*/
+        model.addAttribute("recipes", recipeService.getRecipe());
+
         return "index";
     }
     @RequestMapping("/recipe/indexTest")

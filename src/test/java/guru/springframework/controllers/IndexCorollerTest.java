@@ -1,4 +1,4 @@
-package guru.springframework.controller;
+package guru.springframework.controllers;
 
 import guru.springframework.module.Recipe;
 import guru.springframework.repository.CatagoryRepository;
@@ -87,4 +87,5 @@ public class IndexCorollerTest {
         Set<Recipe> recipes1=argumentCaptor.getValue();
         Assert.assertEquals(2,recipes1.size());
     }
+
 }
