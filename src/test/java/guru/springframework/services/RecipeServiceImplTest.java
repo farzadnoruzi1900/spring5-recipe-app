@@ -53,18 +53,28 @@ public class RecipeServiceImplTest {
         // another method in mockito and integration test is to use verify and
     /*    by that we want to assure that that specific method runs only and only one time
                 in here .*/
+        Assert.assertEquals(recipeSet.size(),recipeData.size());
         verify(recipeRepository,times(1)).findAll();
 
     }
     @Test
     public void getRecipeTestById(){
+      /*  just some more explanation again in writing test you have a method for instace
+                in your seice that you want to test it in budy of your test more than the classes and
+                methods which are in your under test method you have to examin the method itself
+                in here we haveto test recipeService.findById too rather than recipeRepository*/
+
+         //given
         Recipe recipe=new Recipe();
         recipe.setId(id);
         Optional<Recipe> optionalRecipe= Optional.of(recipe);
         when(recipeRepository.findById(anyLong())).thenReturn(optionalRecipe);
 
+        //when
         Recipe recipe1=recipeService.findById(id);
 
+        //then
+        Assert.assertEquals(recipe.getId(),recipe1.getId());
         Assert.assertNotNull(recipe1);
         verify(recipeRepository).findById(anyLong());
         verify(recipeRepository,never()).findAll();
@@ -74,7 +84,9 @@ public class RecipeServiceImplTest {
     public void deletByIdTest(){
         Long idDelete=Long.valueOf(1l);
         recipeService.deletById(idDelete);
-
+/*
+it does not have any return type so we do not have any when
+*/
         verify(recipeRepository,times(1)).deleteById(anyLong());
     }
 }

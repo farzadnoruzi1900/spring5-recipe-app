@@ -26,7 +26,7 @@ public class RecipeController {
     @GetMapping
     @RequestMapping("recipe/new")
     public String getNewRecipe(Model model){
-        model.addAttribute("recipe",new Recipe());
+        model.addAttribute("recipe",new RecipeCommand());
         return "recipe/recipeform";
         // we are getting an empty object to recipeform and then asign the value to it
         /*then by clicking to submit it will trigger a post method on this url
@@ -36,7 +36,7 @@ public class RecipeController {
     @GetMapping
     @RequestMapping("recipe/{id}/update")
     public String updateRecipe(@PathVariable String id, Model model){
-        model.addAttribute("recipe",recipeService.findById(Long.valueOf(id)));
+        model.addAttribute("recipe",recipeService.findCommandById(Long.valueOf(id)));
         return "recipe/recipeform";
     }
     //the model attribute is for the time that we have post or updata and

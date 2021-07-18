@@ -44,7 +44,9 @@ public class RecipeControllerTe {
        when(recipeService.findById(anyLong())).thenReturn(recipe);
         mockMvc.perform(MockMvcRequestBuilders.get("/recipe/1/show"))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("recipe/show"));
+                .andExpect(MockMvcResultMatchers.view().name("recipe/show"))
+                .andExpect(model().attributeExists("recipe"));
+        verify(recipeService,times(1)).findById(anyLong());
     }
     @Test
     public void testGetNewRecipeForm() throws Exception {
