@@ -1,8 +1,12 @@
 package guru.springframework.services;
 
+import guru.springframework.commands.IngrediantCommand;
 import guru.springframework.commands.RecipeCommand;
 import guru.springframework.converters.RecipeCommandToRecipe;
 import guru.springframework.converters.RecipeToRecipeCommand;
+import guru.springframework.module.Catagory;
+import guru.springframework.module.Ingerediant;
+import guru.springframework.module.Notes;
 import guru.springframework.module.Recipe;
 import guru.springframework.repository.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -55,6 +59,20 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     @Transactional
+    // notice in here recipe and other dependent classes inside recipe
+    /*such as Ingerediant or Notes or Catagory all are cascaded by the recipe
+    so when we save recipe all of them will save automatically . */
+   /* but in Ingrediant as you know there is upside dependency when you wnat to
+            save an Ingerediant you have to control the recipe to be sure
+            that a recipe for this ingrediant is exist and if exist you have to get
+    its list of ingrediant and if there is an ingrediant in there with exact number of id
+    with the ingrediant that we try to save go and update that ingrediant with the new value
+    of this new ingrediant that we want to save . again for adding unitofmeasure
+            we ahev to be sure that the unitofmeasure of the new ingerediant exists in the
+            repository if not throw exception .
+            in case the ingrediant you want to add is not part of recipe ingrediant just add
+            it to recipe ingrediants .
+    then save the recipe in the repo*/
     public RecipeCommand saveRecipeCommand(RecipeCommand command) {
         Recipe detachRecipe = recipeCommandToRecipe.convert(command);
         Recipe saveRecipe = recipeRepository.save(detachRecipe);

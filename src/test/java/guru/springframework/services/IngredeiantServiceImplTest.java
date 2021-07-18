@@ -1,11 +1,14 @@
 package guru.springframework.services;
 
 import guru.springframework.commands.IngrediantCommand;
+import guru.springframework.converters.IngradiantCommandToIngradiant;
 import guru.springframework.converters.IngradiantToIngradiantCommand;
+import guru.springframework.converters.UnitOfMeasureCommandToUnitOfMeasure;
 import guru.springframework.converters.UnitofMeasureToUnitOfMeasureCommand;
 import guru.springframework.module.Ingerediant;
 import guru.springframework.module.Recipe;
 import guru.springframework.repository.RecipeRepository;
+import guru.springframework.repository.UnitOfMeasureRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +17,6 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Optional;
 
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
@@ -24,12 +26,17 @@ public class IngredeiantServiceImplTest {
     RecipeRepository recipeRepository;
 
     IngredeiantService ingredeiantService;
+    @Mock
+    UnitOfMeasureRepository unitOfMeasureRepository;
+    IngradiantCommandToIngradiant ingradiantCommandToIngradiant;
     @Before
     public void setUp() throws Exception {
         ingradiantToIngradiantCommand=new IngradiantToIngradiantCommand
                 (new UnitofMeasureToUnitOfMeasureCommand());
+        this.ingradiantCommandToIngradiant=new IngradiantCommandToIngradiant
+                (new UnitOfMeasureCommandToUnitOfMeasure());
         MockitoAnnotations.initMocks(this);
-        this.ingredeiantService=new IngredeiantServiceImpl(recipeRepository,ingradiantToIngradiantCommand);
+        this.ingredeiantService=new IngredeiantServiceImpl(recipeRepository,ingradiantToIngradiantCommand, unitOfMeasureRepository, ingradiantCommandToIngradiant);
     }
 
     @Test
