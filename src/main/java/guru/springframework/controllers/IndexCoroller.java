@@ -25,7 +25,7 @@ public class IndexCoroller {
         this.recipeService = recipeService;
     }
 
-
+//@RequestMapping by default has the get method inside of it .
     @RequestMapping({"/index",""})
     public String getIndex(Model model){
         // in here we get access to those query method and we store them in Optional class again for purpose

@@ -17,14 +17,14 @@ public class RecipeController {
 
     //  this is how you declare variable in the url
 
-    @GetMapping
-    @RequestMapping("/recipe/{id}/show")
+    @GetMapping("/recipe/{id}/show")
+    //@RequestMapping("/recipe/{id}/show")
     public String showById(@PathVariable String id, Model model) {
         model.addAttribute("recipe",recipeService.findById(Long.valueOf(id)));
         return "recipe/show";
     }
-    @GetMapping
-    @RequestMapping("recipe/new")
+    @GetMapping("recipe/new")
+    //@RequestMapping("recipe/new")
     public String getNewRecipe(Model model){
         model.addAttribute("recipe",new RecipeCommand());
         return "recipe/recipeform";
@@ -33,8 +33,8 @@ public class RecipeController {
             and persist the object to database with help of method we wrote on seervice*/
     }
 
-    @GetMapping
-    @RequestMapping("recipe/{id}/update")
+    @GetMapping("recipe/{id}/update")
+    //@RequestMapping("recipe/{id}/update")
     public String updateRecipe(@PathVariable String id, Model model){
         model.addAttribute("recipe",recipeService.findCommandById(Long.valueOf(id)));
         return "recipe/recipeform";
@@ -42,8 +42,8 @@ public class RecipeController {
     //the model attribute is for the time that we have post or updata and
    /* we expect to recive an object from web-tier by modulattribute we are saying bind that attribute
     to RecipeCommand .*/
-    @PostMapping
-    @RequestMapping("recipe")
+    @PostMapping("recipe")
+    //@RequestMapping("recipe")
     public String saveOrUpdateNewRecipe(@ModelAttribute RecipeCommand command){
         RecipeCommand recipeCommand=recipeService.saveRecipeCommand(command);
         return "redirect:/recipe/"+recipeCommand.getId()+"/show";
@@ -58,8 +58,8 @@ public class RecipeController {
 //        do not forget that the object that we receive is command object
     }
 
-    @GetMapping
-    @RequestMapping("recipe/{id}/delete")
+    @GetMapping("recipe/{id}/delete")
+    //@RequestMapping("recipe/{id}/delete")
     public String deletById(@PathVariable String id){
         recipeService.deletById(Long.valueOf(id));
         return "redirect:/";

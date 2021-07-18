@@ -24,8 +24,11 @@ public class IngredientController {
         this.unitOfMeasureService = unitOfMeasureService;
     }
 
-    @GetMapping
-    @RequestMapping("recipe/{id}/ingredients")
+   // @GetMapping
+   // @RequestMapping("recipe/{id}/ingredients")
+   /* using both @GetMapping and @RequestMapping both together is kind of redundant thats why we change the
+            code like this and use only the method specifier annotation . */
+    @GetMapping("recipe/{id}/ingredients")
     public String showIngerediantList(@PathVariable String id, Model model){
         log.debug("Getting ingredient list for recipe id: " + id);
         // use command object to avoid lazy load errors in Thymeleaf.
@@ -38,8 +41,8 @@ public class IngredientController {
                 return "recipe/ingerediants/index";
     }
 
-    @GetMapping
-    @RequestMapping("recipe/{recipeId}/ingredient/{ingerediantId}/show")
+    @GetMapping("recipe/{recipeId}/ingredient/{ingerediantId}/show")
+    //@RequestMapping("recipe/{recipeId}/ingredient/{ingerediantId}/show")
     public String showIngerediantById(@PathVariable String recipeId,
                                       @PathVariable String ingerediantId,Model model){
         model.addAttribute("ingredient",
@@ -48,8 +51,8 @@ public class IngredientController {
 return "recipe/ingerediants/show";
     }
 
-    @GetMapping
-    @RequestMapping("recipe/{recipeId}/ingredient/{id}/update")
+    @GetMapping("recipe/{recipeId}/ingredient/{id}/update")
+//    @RequestMapping("recipe/{recipeId}/ingredient/{id}/update")
     public String updateRecipeIngredient(@PathVariable String recipeId,
                                             @PathVariable String id,Model model){
         model.addAttribute("ingredient",ingredeiantService.findIngerediantbyIdWithRecipeId
@@ -58,8 +61,8 @@ return "recipe/ingerediants/show";
         return "recipe/ingerediants/ingerediantform";
     }
 
-    @PostMapping
-    @RequestMapping("recipe/{recipeId}/ingredient")
+    @PostMapping("recipe/{recipeId}/ingredient")
+//    @RequestMapping("recipe/{recipeId}/ingredient")
     public String saveOrUpdateIngredient(@ModelAttribute IngrediantCommand command){
         IngrediantCommand ingrediantCommand=ingredeiantService.saveIngrediant(command);
 
@@ -69,8 +72,8 @@ return "recipe/ingerediants/show";
 
 
     }
-    @GetMapping
-    @RequestMapping("recipe/{recipeId}/ingredient/{ingredientId}/delete")
+    @GetMapping("recipe/{recipeId}/ingredient/{ingredientId}/delete")
+//    @RequestMapping("recipe/{recipeId}/ingredient/{ingredientId}/delete")
 public String deleteIngredientById(@PathVariable String recipeId,@PathVariable String ingredientId){
         ingredeiantService.deleteIngredientById(Long.valueOf(recipeId),Long.valueOf(ingredientId));
         return "redirect:/recipe/"+recipeId+"/ingredients";
