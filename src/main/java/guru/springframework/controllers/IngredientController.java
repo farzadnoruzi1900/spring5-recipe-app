@@ -25,7 +25,7 @@ public class IngredientController {
     }
 
     @GetMapping
-    @RequestMapping("recipe/{id}/ingerediants")
+    @RequestMapping("recipe/{id}/ingredients")
     public String showIngerediantList(@PathVariable String id, Model model){
         log.debug("Getting ingredient list for recipe id: " + id);
         // use command object to avoid lazy load errors in Thymeleaf.
@@ -39,7 +39,7 @@ public class IngredientController {
     }
 
     @GetMapping
-    @RequestMapping("recipe/{recipeId}/ingerediant/{ingerediantId}/show")
+    @RequestMapping("recipe/{recipeId}/ingredient/{ingerediantId}/show")
     public String showIngerediantById(@PathVariable String recipeId,
                                       @PathVariable String ingerediantId,Model model){
         model.addAttribute("ingredient",
@@ -70,10 +70,10 @@ return "recipe/ingerediants/show";
 
     }
     @GetMapping
-    @RequestMapping("recipe/{recipeId}/ingrediant/{ingredientId}/delete")
+    @RequestMapping("recipe/{recipeId}/ingredient/{ingredientId}/delete")
 public String deleteIngredientById(@PathVariable String recipeId,@PathVariable String ingredientId){
         ingredeiantService.deleteIngredientById(Long.valueOf(recipeId),Long.valueOf(ingredientId));
-        return "redirect:/recipe/"+recipeId+"/ingerediants";
+        return "redirect:/recipe/"+recipeId+"/ingredients";
 }
 
 }

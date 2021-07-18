@@ -98,14 +98,17 @@ if(!optionalIngerediant.isPresent()){
             Optional<Ingerediant> ingeredianttoDelet=recipeSave.getIngerediants().stream()
                     .filter(ingerediant -> ingerediant.getId().equals(ingredientId))
                     .findFirst();
-            if(ingeredianttoDelet.isPresent()){
-                Ingerediant ingerediant=ingeredianttoDelet.get();
+            if (ingeredianttoDelet.isPresent()) {
+                Ingerediant ingerediant = ingeredianttoDelet.get();
                 ingerediant.setRecipe(null);
                 recipeSave.getIngerediants().remove(ingerediant);
                 recipeRepository.save(recipeSave);
 
+            } else {
+                log.error("this ingredient does not exist with this id : " + ingredientId);
+
             }
-            log.error("this ingredient does not exist with this id : "+ingredientId);
+
         }
         else {
             log.error("this recipe does not exist with this id: " +recipeId);

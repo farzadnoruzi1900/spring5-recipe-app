@@ -17,7 +17,7 @@
 </head>
 <body>
 <!--/*@thymesVar id="recipe" type="guru.springframework.module.Recipe"*/-->
-<!--/*@thymesVar id="ingredients" type="java.util.Set<guru.springframework.commands.IngrediantCommand>"*/-->
+<!--/*@thymesVar id="ingerediants" type="java.util.Set<guru.springframework.commands.IngrediantCommand>"*/-->
 <div class="container-fluid" style="margin-top: 20px">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
@@ -53,6 +53,10 @@
                                 <td><a href="#">Update</a></td>
                                 <td><a href="#">Delete</a></td>
                             </tr>
+                        <!--    something so powerful that you can learn from here is that
+                            in here each of these button that you declare are doing some kind of redirecting
+                            to the specific target to the functionality that you desire . from view to update and delete
+                            and that's so beautiful .-->
                             <tr th:each="ingredient : ${recipe.ingerediants}">
                                 <td th:text="${ingredient.id}">334</td>
                                 <td th:text="${ingredient.amount} + ' ' + ${ingredient.unitOfMeasure.getDescription()} + ' ' + ${ingredient.description} + '/show'">Tasty Goodnees 3</td>
