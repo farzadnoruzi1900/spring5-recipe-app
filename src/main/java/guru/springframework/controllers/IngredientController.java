@@ -69,6 +69,11 @@ return "recipe/ingerediants/show";
 
 
     }
-
+    @GetMapping
+    @RequestMapping("recipe/{recipeId}/ingrediant/{ingredientId}/delete")
+public String deleteIngredientById(@PathVariable String recipeId,@PathVariable String ingredientId){
+        ingredeiantService.deleteIngredientById(Long.valueOf(recipeId),Long.valueOf(ingredientId));
+        return "redirect:/recipe/"+recipeId+"/ingerediants";
+}
 
 }

@@ -89,4 +89,28 @@ if(!optionalIngerediant.isPresent()){
                 .stream().filter(ingerediant -> ingerediant.getId().equals(command.getId()))
                 .findFirst().get());
     }
+
+    @Override
+    public void deleteIngredientById(Long recipeId, Long ingredientId) {
+        Optional<Recipe> recipeOptional=recipeRepository.findById(recipeId);
+        if(recipeOptional.isPresent()){
+            Recipe recipeSave=recipeOptional.get();
+            Optional<Ingerediant> ingeredianttoDelet=recipeSave.getIngerediants().stream()
+                    .filter(ingerediant -> ingerediant.getId().equals(ingredientId))
+                    .findFirst();
+            if(ingeredianttoDelet.isPresent()){
+                Ingerediant ingerediant=ingeredianttoDelet.get();
+                ingerediant.setRecipe(null);
+                recipeSave.getIngerediants().remove(ingerediant);
+                recipeRepository.save(recipeSave);
+
+            }
+            log.error("this ingredient does not exist with this id : "+ingredientId);
+        }
+        else {
+            log.error("this recipe does not exist with this id: " +recipeId);
+        }
+
+
+    }
 }
