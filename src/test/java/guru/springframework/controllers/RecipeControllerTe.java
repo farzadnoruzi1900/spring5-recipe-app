@@ -77,14 +77,16 @@ public class RecipeControllerTe {
     @Test
     public void testGetUpdateView() throws Exception {
         RecipeCommand command = new RecipeCommand();
-        command.setId(2L);
-
+        command.setId(1L);
+/*I got error on last line of this code to get the attributeExist the problem was that
+        in recipeController I used recipeService.findCommandById() and here I used recipeService.updateRecipeById()
+                which caused the problem .*/
         when(recipeService.updateRecipeById(anyLong())).thenReturn(command);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/recipe/1/update"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("recipe/recipeform"));
-//                .andExpect(model().attributeExists("recipe"));
+                .andExpect(view().name("recipe/recipeform"))
+                .andExpect(model().attributeExists("recipe"));
     }
     @Test
     public void testDeleteAction() throws Exception {
