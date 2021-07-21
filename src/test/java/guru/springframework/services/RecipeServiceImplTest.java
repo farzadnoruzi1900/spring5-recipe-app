@@ -1,5 +1,6 @@
 package guru.springframework.services;
 
+import guru.springframework.Exceptions.NotFoundException;
 import guru.springframework.converters.RecipeCommandToRecipe;
 import guru.springframework.converters.RecipeToRecipeCommand;
 import guru.springframework.module.Recipe;
@@ -7,8 +8,10 @@ import guru.springframework.repository.RecipeRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -88,5 +91,19 @@ public class RecipeServiceImplTest {
 it does not have any return type so we do not have any when
 */
         verify(recipeRepository,times(1)).deleteById(anyLong());
+    }
+    @Test(expected= NotFoundException.class)
+//    by this expected we meane that in this test method we expect to see the exception class that we wrote .
+    public void GetRecipeByIdNotFound(){
+        Optional<Recipe> optionalRecipe=Optional.empty();
+        when(recipeService.findById(anyLong())).thenReturn(optionalRecipe.get());
+        Recipe recipe=recipeService.findById(1L);
+        /*the test is green and that means that our exception is handeled perfectly .
+                because we throw it in case of having empty Optional in recipeService class */
+
+        /*there are of course one other test in controller side we want to be sure that it shows
+                us the exception when do we have 404 or notfound Exception check the @ResponseStatus
+                annotation on NotfoundException Class that you wrote it and of course the controller test
+                to figure it out more .*/
     }
 }

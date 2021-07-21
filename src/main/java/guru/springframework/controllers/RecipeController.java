@@ -1,12 +1,16 @@
 package guru.springframework.controllers;
 
+import guru.springframework.Exceptions.NotFoundException;
 import guru.springframework.commands.RecipeCommand;
-import guru.springframework.module.Recipe;
 import guru.springframework.services.RecipeService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+@Slf4j
 @Controller
 public class RecipeController {
     private final RecipeService recipeService;
@@ -23,6 +27,7 @@ public class RecipeController {
         model.addAttribute("recipe",recipeService.findById(Long.valueOf(id)));
         return "recipe/show";
     }
+
     @GetMapping("recipe/new")
     //@RequestMapping("recipe/new")
     public String getNewRecipe(Model model){
@@ -39,6 +44,7 @@ public class RecipeController {
         model.addAttribute("recipe",recipeService.updateRecipeById(Long.valueOf(id)));
         return "recipe/recipeform";
     }
+
     //the model attribute is for the time that we have post or updata and
    /* we expect to recive an object from web-tier by modulattribute we are saying bind that attribute
     to RecipeCommand .*/
@@ -60,9 +66,27 @@ public class RecipeController {
 
     @GetMapping("recipe/{id}/delete")
     //@RequestMapping("recipe/{id}/delete")
-    public String deletById(@PathVariable String id){
+    public String deletById(@PathVariable String id) {
         recipeService.deletById(Long.valueOf(id));
         return "redirect:/";
+    }
+
+    //@ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundException.class)
+    public ModelAndView handleNotFound(Exception exception) {
+        log.error(exception.getMessage());
+      /*  by adding exceptionHandler we want to say that when ever we catch the error of the
+                class NotFoundException brows this view and of course we have to put the status code here
+                too as we put it on notFoundException Class. whether decklare it with annotation
+                or with modelAndView object .*/
+        log.error("handling Not found Exception");
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setStatus(HttpStatus.NOT_FOUND);
+     /*   as you can see by using addObject you can pass object to your model
+                and then show its content as here we have exception which we want to show its message.*/
+        modelAndView.addObject("exception",exception);
+        modelAndView.setViewName("404view");
+        return modelAndView;
     }
 
 }

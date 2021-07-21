@@ -1,12 +1,9 @@
 package guru.springframework.services;
 
-import guru.springframework.commands.IngrediantCommand;
+import guru.springframework.Exceptions.NotFoundException;
 import guru.springframework.commands.RecipeCommand;
 import guru.springframework.converters.RecipeCommandToRecipe;
 import guru.springframework.converters.RecipeToRecipeCommand;
-import guru.springframework.module.Catagory;
-import guru.springframework.module.Ingerediant;
-import guru.springframework.module.Notes;
 import guru.springframework.module.Recipe;
 import guru.springframework.repository.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +47,7 @@ public class RecipeServiceImpl implements RecipeService {
     public Recipe findById(Long id) {
         Optional<Recipe> optionalRecipe=recipeRepository.findById(id);
         if(!optionalRecipe.isPresent()){
-            throw  new RuntimeException("there is not any value for this id");
+            throw new NotFoundException("there is not any recipe for this id value :" + id.toString());
         }
         else {
             return optionalRecipe.get();

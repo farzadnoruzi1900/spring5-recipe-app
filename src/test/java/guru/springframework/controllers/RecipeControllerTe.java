@@ -1,5 +1,6 @@
 package guru.springframework.controllers;
 
+import guru.springframework.Exceptions.NotFoundException;
 import guru.springframework.commands.RecipeCommand;
 import guru.springframework.module.Recipe;
 import guru.springframework.services.RecipeService;
@@ -12,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -95,5 +97,28 @@ public class RecipeControllerTe {
                 .andExpect(view().name("redirect:/"));
 //we do not have any when because this method do not return any thing .
         verify(recipeService, times(1)).deletById(anyLong());
+    }
+    @Test
+    public void RecipeNotFound() throws Exception {
+        Recipe recipe=new Recipe();
+        recipe.setId(1l);
+        when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+
+        mockMvc.perform(get("/recipe/1/show"))
+                .andExpect(status().isNotFound());
+      /*  in here we are testing in case of 404 on this url does the controller handel the error with the
+                rxception we wrote and throw or not .*/
+
+       /* by @ResponseStatus we can also force the controller to show the status code that we want
+                usually in case of not exist a property it goes for 500 but here we are saying throw NotFoundException
+            class which has 404 status code . */
+    }
+    @Test
+    public void handleViewNotFoundException() throws Exception {
+        when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+
+        mockMvc.perform(get("/recipe/1/show"))
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("404view"));
     }
 }
