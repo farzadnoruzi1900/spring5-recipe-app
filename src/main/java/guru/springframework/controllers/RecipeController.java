@@ -85,7 +85,16 @@ public class RecipeController {
      /*   as you can see by using addObject you can pass object to your model
                 and then show its content as here we have exception which we want to show its message.*/
         modelAndView.addObject("exception",exception);
-        modelAndView.setViewName("404view");
+        modelAndView.setViewName("exceptions/404view");
+        return modelAndView;
+    }
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NumberFormatException.class)
+    public ModelAndView handleFileFormatException(Exception exception){
+        log.error(exception.getMessage());
+        ModelAndView modelAndView=new ModelAndView();
+        modelAndView.addObject("exception",exception);
+        modelAndView.setViewName("exceptions/400view");
         return modelAndView;
     }
 
