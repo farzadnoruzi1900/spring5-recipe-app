@@ -14,6 +14,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import javax.validation.constraints.NotBlank;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -33,7 +35,8 @@ public class RecipeControllerTe {
         MockitoAnnotations.initMocks(this);
 
         recipeController=new RecipeController(recipeService);
-        mockMvc= MockMvcBuilders.standaloneSetup(recipeController).build();
+        mockMvc= MockMvcBuilders.standaloneSetup(recipeController).
+                setControllerAdvice(new ExceptionHandlerController()).build();
 
         recipe=new Recipe();
         recipe.setId(1l);
@@ -65,11 +68,16 @@ public class RecipeControllerTe {
         command.setId(2L);
 
         when(recipeService.saveRecipeCommand(any())).thenReturn(command);
-
         mockMvc.perform(post("/recipe")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//                .param("id", "")
-//                .param("description", "some string")
+            .param("id", "")
+                .param("description", "some string")
+                .param("directions","some string")
+
+              /*  these params here put some value to the object which is gonna be posted here
+                as you remember we are mimiking what is happening in our code , and notice because
+                we use validator constraints annotations @NotBlank we have to add value for directions
+                and description in other case we receive errors.*/
         )
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/recipe/2/show"));
@@ -128,4 +136,5 @@ public class RecipeControllerTe {
                 .andExpect(view().name("exceptions/400view"))
                 .andExpect(model().attributeExists("exception"));
     }
+
 }

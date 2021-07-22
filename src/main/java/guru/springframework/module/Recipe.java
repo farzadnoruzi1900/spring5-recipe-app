@@ -2,8 +2,13 @@ package guru.springframework.module;
 
 
 import lombok.Data;
+import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,12 +22,17 @@ public class Recipe {
     // of course the data base should support this feature .
 
     private String description;
+
     private Integer prepTime;
+
     private Integer cookTime;
+
     private Integer servings;
     private String source;
+
     private String url ;
     @Lob
+
     private String directions;
     @Enumerated(value = EnumType.STRING)
     private Difficulity difficulity;

@@ -12,6 +12,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.*;
@@ -33,7 +34,13 @@ public class ImageControllerTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         this.imageController = new ImageController(imageService, recipeService);
-        mockMvc = MockMvcBuilders.standaloneSetup(imageController).build();
+       /* when we are using @ControllerAdvice to have globalized exceptionHandler we have to instanciate
+                mockMvc in this way.*/
+        mockMvc = MockMvcBuilders.standaloneSetup(imageController).
+                setControllerAdvice(new ExceptionHandlerController()).build();
+        /*by doing this we are wiring in the controller advise so that is happening inside of our setUp
+                for mockMvc a we do not rely the pull spring context in this way it is faster .*/
+
     }
 
     @Test
@@ -62,6 +69,12 @@ public class ImageControllerTest {
                 .andExpect(header().string("Location", "/recipe/1/show"));
 
         verify(imageService, times(1)).saveImageFile(anyLong(), any());
+    }
+    @Test
+    public void handleNumberFormatExceptionTest() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/recipe/dfdaf/image"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("exceptions/400view"));
     }
 
 

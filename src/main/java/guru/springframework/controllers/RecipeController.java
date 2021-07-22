@@ -7,8 +7,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
 
 @Slf4j
 @Controller
@@ -48,9 +51,21 @@ public class RecipeController {
     //the model attribute is for the time that we have post or updata and
    /* we expect to recive an object from web-tier by modulattribute we are saying bind that attribute
     to RecipeCommand .*/
+
     @PostMapping("recipe")
     //@RequestMapping("recipe")
-    public String saveOrUpdateNewRecipe(@ModelAttribute RecipeCommand command){
+    public String saveOrUpdateNewRecipe(@Valid @ModelAttribute RecipeCommand command, BindingResult bindingResult){
+        /*the reason why we are using bindingResult is that now on our recipeCommand we have
+                built in validator annotation and we need to show those errors in case of happening
+                in our trace.it is good to check the exact reason of errors .there are some new
+                methods in writing the tests for this method too you can find it by this name
+                postNewRecipeForm*/
+        if(bindingResult.hasErrors()){
+            bindingResult.getAllErrors().forEach(objectError ->{
+                    log.error(objectError.toString());
+            });
+            return "recipe/recipeform";
+        }
         RecipeCommand recipeCommand=recipeService.saveRecipeCommand(command);
         return "redirect:/recipe/"+recipeCommand.getId()+"/show";
 // in here we say apply the saveRecipeCommand method on the new Recipe which you are
@@ -90,6 +105,13 @@ public class RecipeController {
     }
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(NumberFormatException.class)
+   /* the idea here as you know is to catch the NumberFormatException
+            where we need our client to put number but what we receive is string
+            as you know this exception might not only happen for recipe
+    controller and might happen for imagecontroller or ingredient controller also so we
+    need this error handling be global for all the places that such exception
+            and we want to pass it to the view that we design for this .so
+    what we have to do is to move this handler to a separate controller class called @ControllerAdvice*/
     public ModelAndView handleFileFormatException(Exception exception){
         log.error(exception.getMessage());
         ModelAndView modelAndView=new ModelAndView();
