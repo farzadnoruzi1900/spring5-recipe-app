@@ -54,20 +54,26 @@ public class RecipeController {
 
     @PostMapping("recipe")
     //@RequestMapping("recipe")
-    public String saveOrUpdateNewRecipe(@Valid @ModelAttribute RecipeCommand command, BindingResult bindingResult){
+    public String saveOrUpdateNewRecipe(@Valid @ModelAttribute("recipe") RecipeCommand command, BindingResult bindingResult) {
         /*the reason why we are using bindingResult is that now on our recipeCommand we have
                 built in validator annotation and we need to show those errors in case of happening
                 in our trace.it is good to check the exact reason of errors .there are some new
                 methods in writing the tests for this method too you can find it by this name
                 postNewRecipeForm*/
-        if(bindingResult.hasErrors()){
-            bindingResult.getAllErrors().forEach(objectError ->{
-                    log.error(objectError.toString());
-            });
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(objectError ->
+                    log.error(objectError.toString()));
+         /*   I have learnt something sweet from attribute in  @ModelAttribute(attribute), this is the
+                    object that you are passing it to the thymleaf it means we put the command as
+                    object in to the recipe and then as you see we use this object "recipe " inside the
+                    thymleaf so it is important to use it when we want to reject to our template if we do not want to
+                    return to thymleaf and put the command object to recipe there is no need to use ModelAttribute
+                    it is used to catch an object in module then use it in template or code */
+
             return "recipe/recipeform";
         }
-        RecipeCommand recipeCommand=recipeService.saveRecipeCommand(command);
-        return "redirect:/recipe/"+recipeCommand.getId()+"/show";
+        RecipeCommand recipeCommand = recipeService.saveRecipeCommand(command);
+        return "redirect:/recipe/" + recipeCommand.getId() + "/show";
 // in here we say apply the saveRecipeCommand method on the new Recipe which you are
         /*receiving from web-tier and after that redirect the page to show.html and return
                 the new object that you saved .*/
