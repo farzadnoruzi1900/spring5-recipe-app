@@ -39,9 +39,15 @@
                             <div class="row">
                                 <div class="col-md-3 form-group" th:class="${#fields.hasErrors('description')}
                                 ? 'col-md-3 form-group has-error' : 'col-md-3 form-group'">
-                                    <label>Recipe Description:</label>
+                                    <label th:text="#{recipe.description}">Recipe Description:</label>
+                                   <!-- in here for instance we are saying read this on properties which we say it is Description
+                                    in messages.properties the tag of this line is lable so we put the lable not Recipe Description
+                                    but we read it from properties file .-->
                                     <input type="text" class="form-control" th:field="*{description}" th:errorclass="has-error"/>
                                     <span class="help-block" th:if="${#fields.hasErrors('description')}">
+
+<!--   !!!!!!!!!!!!!!!! this # that you can see on fileds means that I want you to read it from properties file -->
+<!--                                        -->
                                         <ul>
                                             <li th:each="err : ${#fields.errors('description')}" th:text="${err}"/>
                                         </ul>
