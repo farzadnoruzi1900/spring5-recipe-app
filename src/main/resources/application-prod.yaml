@@ -1,0 +1,16 @@
+spring:
+  datasource:
+#    sfg_prod it is the name of the data base we want to connect to
+    url: jdbc:mysql://localhost:3306/sfg_prod
+    username: sfg_prod_user
+    password: guru
+  jpa:
+    hibernate:
+#      it can be created and drop like which is for h2 database but here we do not want the hibernate
+#      can do the ddl operation like create database and so and we just need the hibernate go there and check
+#      the schema
+      ddl-auto: validate
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    database: mysql
+#    by here we mean if we need to see the sql statements or not
+    show-sql: false

@@ -1,23 +1,20 @@
 package guru.springframework.controllers;
 
-import guru.springframework.module.Catagory;
-import guru.springframework.module.UnitOfMeasure;
 import guru.springframework.repository.CatagoryRepository;
 import guru.springframework.repository.UnitOfMeasureRepository;
 import guru.springframework.services.RecipeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.Optional;
 
 @Slf4j
 @Controller
 public class IndexCoroller {
-   private final CatagoryRepository catagoryRepository;
-   private final UnitOfMeasureRepository unitOfMeasureRepository;
-   private final RecipeService recipeService;
+    private final CatagoryRepository catagoryRepository;
+    private final UnitOfMeasureRepository unitOfMeasureRepository;
+    private final RecipeService recipeService;
 
     public IndexCoroller(CatagoryRepository catagoryRepository, UnitOfMeasureRepository unitOfMeasureRepository, RecipeService recipeService) {
         this.catagoryRepository = catagoryRepository;
@@ -25,9 +22,9 @@ public class IndexCoroller {
         this.recipeService = recipeService;
     }
 
-//@RequestMapping by default has the get method inside of it .
-    @RequestMapping({"/index",""})
-    public String getIndex(Model model){
+
+    @GetMapping({"/index", ""})
+    public String getIndex(Model model) {
         // in here we get access to those query method and we store them in Optional class again for purpose
         //of not having point to null object and then we easily fetch data from database .
        /*Optional<Catagory> catagory=catagoryRepository.findByDescription("American");

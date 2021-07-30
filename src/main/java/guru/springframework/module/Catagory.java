@@ -9,6 +9,7 @@ import java.util.Set;
 @Data
 @Entity
 @EqualsAndHashCode(exclude = {"recipe"})
+@Table(name = "Catagory")
 public class Catagory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
