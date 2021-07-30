@@ -4,6 +4,7 @@ spring:
     url: jdbc:mysql://localhost:3306/sfg_prod
     username: sfg_prod_user
     password: guru
+    platform: mysql
   jpa:
     hibernate:
 #      it can be created and drop like which is for h2 database but here we do not want the hibernate

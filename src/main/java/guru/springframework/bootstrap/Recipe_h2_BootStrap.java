@@ -5,6 +5,7 @@ import guru.springframework.repository.CatagoryRepository;
 import guru.springframework.repository.RecipeRepository;
 import guru.springframework.repository.UnitOfMeasureRepository;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
@@ -15,12 +16,13 @@ import java.util.Optional;
 import java.util.Set;
 
 @Component
-public class RecipeBootStrap implements ApplicationListener<ContextRefreshedEvent> {
+@Profile("default")
+public class Recipe_h2_BootStrap implements ApplicationListener<ContextRefreshedEvent> {
     private final CatagoryRepository catagoryRepository;
     private final RecipeRepository recipeRepository;
     private final UnitOfMeasureRepository unitOfMeasureRepository;
 
-    public RecipeBootStrap(CatagoryRepository catagoryRepository, RecipeRepository recipeRepository, UnitOfMeasureRepository unitOfMeasureRepository) {
+    public Recipe_h2_BootStrap(CatagoryRepository catagoryRepository, RecipeRepository recipeRepository, UnitOfMeasureRepository unitOfMeasureRepository) {
         this.catagoryRepository = catagoryRepository;
         this.recipeRepository = recipeRepository;
         this.unitOfMeasureRepository = unitOfMeasureRepository;

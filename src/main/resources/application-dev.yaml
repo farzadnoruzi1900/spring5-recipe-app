@@ -3,12 +3,21 @@ spring:
     url: jdbc:mysql://localhost:3306/sfg_dev
     username: sfg_dev_user
     password: guru
+#    this platform is important to set here when we have data-h2.sql spring jpa takes it when
+#    we active profile that have platform:h2 and when we have mysql it takes the data-mysql
+#    if exists of course if not thats ok so adding this platform is super important .
+    platform: mysql
   jpa:
     hibernate:
       ddl-auto: validate
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     database: mysql
     show-sql: true
+#    something you should know about this part is that it is just need to be ran only and only one time
+#    because it is a persistence database so just one time you must create the tables and tuples
+#    even the file (: guru_database_create.sql) can be ommited after this process
+#    just remmember before using this profile I mean dev profile you must have already created the releated
+#    tables in your mysql database and then run the code
     properties:
       javax:
         persistence:
